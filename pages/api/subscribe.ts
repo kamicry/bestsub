@@ -131,15 +131,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
     if (userAgent.includes('clash') || format === 'clash') {
       // 调用订阅转换API
-      const subConverterUrl = `${proxyConfig.subProtocol}://${proxyConfig.subConverter}/sub?target=clash&url=${encodeURIComponent(`${req.headers.host}${req.url}`)}&insert=false&config=${encodeURIComponent(proxyConfig.subConfig)}`;
+//      const subConverterUrl = `${proxyConfig.subProtocol}://${proxyConfig.subConverter}/sub?target=clash&url=${encodeURIComponent(`${req.headers.host}${req.url}`)}&insert=false&config=${encodeURIComponent(proxyConfig.subConfig)}`;
       
-      console.log('Sub converter URL:', subConverterUrl);
+  //    console.log('Sub converter URL:', subConverterUrl);
       
-      try {
-        const converterResponse = await fetch(subConverterUrl);
-        const converterContent = await converterResponse.text();
+    //  try {
+      //  const converterResponse = await fetch(subConverterUrl);
+     //   const converterContent = await converterResponse.text();
         
-        console.log('Sub converter response length:', converterContent.length);
+     //   console.log('Sub converter response length:', converterContent.length);
         
         // 直接返回内容，不设置下载头
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
