@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { SubscribeRequest, ProxyConfig } from '@/types';
-import { processContent, encodeBase64, decodeBase64 } from '@/utils/helpers';
+import { processContent, encodeBase64 } from '@/utils/helpers';
 
 // 配置（可以从环境变量获取）
 const proxyConfig: ProxyConfig = {
@@ -25,7 +25,7 @@ const DEFAULT_ADDRESSES_API = [
 async function fetchAddressesFromAPI(apiUrls: string[]): Promise<string> {
   const addresses: string[] = [];
   
-// 使用 Promise.allSettled 确保即使某些 API 失败也不会影响整体
+  // 使用 Promise.allSettled 确保即使某些 API 失败也不会影响整体
   const results = await Promise.allSettled(
     apiUrls.map(url => 
       fetch(url, {
@@ -81,8 +81,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!host || !uuid) {
       return res.status(400).json({ error: 'Missing required parameters: host and uuid' });
     }
-    
-    
+ 
     // 获取地址列表 - 优先使用 API
     let addressesContent = '';
     
@@ -103,7 +102,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log('Using static addresses:', addressesContent);
     }
     
-       // 如果仍然没有地址，使用默认地址
+    // 如果仍然没有地址，使用默认地址
     if (!addressesContent) {
       console.log('No addresses found, using fallback');
       addressesContent = 'time.is:2053#Keaeye提优支持,icook.hk:2083#备用节点,sk.moe:2096#备用节点,142.171.137.37:8443#备用节点';
@@ -112,7 +111,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const processed = processContent(addressesContent);
     console.log('Processed addresses count:', processed.addresses.length);
 
-   // 构建订阅内容 - 使用 VLESS 协议
+    // 构建订阅内容 - 使用 VLESS 协议
     let subscriptionContent = '';
     for (const addr of processed.addresses) {
       const port = addr.port || '443';
@@ -125,39 +124,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     console.log('Generated subscription content length:', subscriptionContent.length);
+
+    // 始终返回 Base64 编码的内容
+    const base64Content = encodeBase64(subscriptionContent);
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     
-       // 根据不同客户端类型返回不同格式
-  //  const userAgent = req.headers['user-agent']?.toLowerCase() || '';
-    
-  //  if (userAgent.includes('clash') || format === 'clash') {
-      // 调用订阅转换API
-//      const subConverterUrl = `${proxyConfig.subProtocol}://${proxyConfig.subConverter}/sub?target=clash&url=${encodeURIComponent(`${req.headers.host}${req.url}`)}&insert=false&config=${encodeURIComponent(proxyConfig.subConfig)}`;
-      
-  //    console.log('Sub converter URL:', subConverterUrl);
-      
-    //  try {
-      //  const converterResponse = await fetch(subConverterUrl);
-     //   const converterContent = await converterResponse.text();
-        
-     //   console.log('Sub converter response length:', converterContent.length);
-        
-        // 直接返回内容，不设置下载头
-        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-        return res.status(200).send(converterContent);
-      } catch (error) {
-        console.error('Sub converter error:', error);
-        
-        // 如果转换失败，返回原始内容
-        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-        return res.status(200).send(subscriptionContent);
-      }
-    } else {
-      // 返回原始内容（VLESS 链接）
-      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-      
-      // 直接返回内容，不设置下载头
-      return res.status(200).send(subscriptionContent);
-    }
+    // 直接返回内容，不设置下载头
+    return res.status(200).send(base64Content);
   } catch (error) {
     console.error('Subscription error:', error);
     return res.status(500).json({ error: 'Internal server error' });
