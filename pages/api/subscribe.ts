@@ -15,6 +15,7 @@ const proxyConfig: ProxyConfig = {
   httpsPorts: process.env.HTTPS_PORTS ? process.env.HTTPS_PORTS.split(',') : ['2053', '2083', '2087', '2096', '8443']
 };
 
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -35,7 +36,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!host || !uuid) {
       return res.status(400).json({ error: 'Missing required parameters: host and uuid' });
     }
- // 获取地址列表（这里简化处理，实际可以从数据库或其他API获取）
+    
+    // 获取地址列表（这里简化处理，实际可以从数据库或其他API获取）
     const addressesContent = process.env.ADDRESSES || '';
     const processed = processContent(addressesContent);
 
@@ -75,21 +77,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const converterResponse = await fetch(subConverterUrl);
         const converterContent = await converterResponse.text();
         
+          // 修复：正确编码文件名
+        const fileName = `${proxyConfig.fileName}.yaml`;
+        const encodedFileName = encodeURIComponent(fileName);
+        
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-        res.setHeader('Content-Disposition', `attachment; filename="${proxyConfig.fileName}.yaml"`);
+        res.setHeader('Content-Disposition', `attachment; filename*=UTF-8''${encodedFileName}; filename="${encodedFileName}"`);
         return res.status(200).send(converterContent);
       } catch (error) {
         console.error('Sub converter error:', error);
         
-              // 如果转换失败，返回原始内容
+        // 如果转换失败，返回原始内容
         res.setHeader('Content-Type', 'text/plain; charset=utf-8');
         return res.status(200).send(subscriptionContent);
       }
     } else {
       // 返回原始base64编码内容
       const base64Content = encodeBase64(subscriptionContent);
+      
+       // 修复：正确编码文件名
+      const fileName = `${proxyConfig.fileName}.txt`;
+      const encodedFileName = encodeURIComponent(fileName);
+      
       res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-      res.setHeader('Content-Disposition', `attachment; filename="${proxyConfig.fileName}.txt"`);
+      res.setHeader('Content-Disposition', `attachment; filename*=UTF-8''${encodedFileName}; filename="${encodedFileName}"`);
       return res.status(200).send(base64Content);
     }
   } catch (error) {
