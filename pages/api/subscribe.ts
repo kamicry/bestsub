@@ -127,9 +127,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log('Generated subscription content length:', subscriptionContent.length);
     
        // 根据不同客户端类型返回不同格式
-    const userAgent = req.headers['user-agent']?.toLowerCase() || '';
+  //  const userAgent = req.headers['user-agent']?.toLowerCase() || '';
     
-    if (userAgent.includes('clash') || format === 'clash') {
+  //  if (userAgent.includes('clash') || format === 'clash') {
       // 调用订阅转换API
 //      const subConverterUrl = `${proxyConfig.subProtocol}://${proxyConfig.subConverter}/sub?target=clash&url=${encodeURIComponent(`${req.headers.host}${req.url}`)}&insert=false&config=${encodeURIComponent(proxyConfig.subConfig)}`;
       
