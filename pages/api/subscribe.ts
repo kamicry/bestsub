@@ -8,7 +8,7 @@ const proxyConfig: ProxyConfig = {
   subProtocol: process.env.SUB_PROTOCOL || 'https',
   subConfig: process.env.SUB_CONFIG || 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/config/ACL4SSR_Online_Full_MultiMode.ini',
   fileName: process.env.SUB_NAME || '优选订阅生成器',
-  noTLS: process.env.NO_TLS || 'false',
+  noTLS: process.env.NO_TLS || 'true',
   alpn: process.env.ALPN || 'h3',
   proxyIPs: process.env.PROXY_IPS ? process.env.PROXY_IPS.split(',') : [],
   matchProxyIP: process.env.MATCH_PROXY_IPS ? process.env.MATCH_PROXY_IPS.split(',') : [],
@@ -17,8 +17,9 @@ const proxyConfig: ProxyConfig = {
 
 // 默认地址 API 列表
 const DEFAULT_ADDRESSES_API = [
-  'https://raw.githubusercontent.com/cmliu/WorkerVless2sub/main/addressesapi.txt',
-  'https://addressesapi.090227.xyz/CloudFlareYes'
+  'https://ipdb.api.030101.xyz/?type=bestproxy&country=true',
+  'https://addressesapi.090227.xyz/CloudFlareYes',
+  'https://addressesapi.090227.xyz/ip.164746.xyz'
 ];
 
 // 从 API 获取地址列表
@@ -68,7 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const {
       host,
       uuid,
-      path = '/?ed=2560',
+      path = '/',
       sni,
       type = 'ws',
       format,
