@@ -8,7 +8,7 @@ const proxyConfig: ProxyConfig = {
   subProtocol: process.env.SUB_PROTOCOL || 'https',
   subConfig: process.env.SUB_CONFIG || 'https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/config/ACL4SSR_Online_Full_MultiMode.ini',
   fileName: process.env.SUB_NAME || '优选订阅生成器',
-  noTLS: process.env.NO_TLS || 'true',
+  noTLS: process.env.NO_TLS || 'false',
   alpn: process.env.ALPN || 'h3',
   proxyIPs: process.env.PROXY_IPS ? process.env.PROXY_IPS.split(',') : [],
   matchProxyIP: process.env.MATCH_PROXY_IPS ? process.env.MATCH_PROXY_IPS.split(',') : [],
