@@ -119,7 +119,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const remark = addr.remark || '';
       
       // 生成 VLESS 链接
-      const vlessLink = `vless://${uuid}@${addr.ip}:${port}?encryption=none&security=tls&sni=${sni || host}&alpn=${proxyConfig.alpn}&fp=random&type=${type}&host=${host}&path=${encodeURIComponent(path)}#${encodeURIComponent(remark)}`;
+      const vlessLink = `vless://${uuid}@${addr.ip}:${port}?encryption=none&security=tls&sni=${sni || host}&alpn=${proxyConfig.alpn}&fp=random&type=${type}&host=${host}&path=${encodeURIComponent(path)}&allowInsecure=1#${encodeURIComponent(remark)}`;
       
       subscriptionContent += vlessLink + '\n';
     }
