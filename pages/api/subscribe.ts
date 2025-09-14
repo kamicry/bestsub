@@ -17,7 +17,7 @@ const proxyConfig: ProxyConfig = {
 
 // 默认地址 API 列表
 const DEFAULT_ADDRESSES_API = [
-  'https://ipdb.api.030101.xyz/?type=bestproxy&country=true',
+  'https://raw.githubusercontent.com/cmliu/WorkerVless2sub/main/addressesapi.txt',
   'https://addressesapi.090227.xyz/CloudFlareYes',
   'https://addressesapi.090227.xyz/ip.164746.xyz'
 ];
