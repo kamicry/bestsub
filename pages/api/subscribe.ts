@@ -69,7 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const {
       host,
       uuid,
-      path = '/',
+      path = '/?ed=2560',
       sni,
       type = 'ws',
       format,
