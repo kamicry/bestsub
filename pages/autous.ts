@@ -1,5 +1,6 @@
 // pages/autous.ts
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { NextApiResponse } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
   const { res } = context;
