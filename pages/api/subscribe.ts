@@ -70,7 +70,7 @@ async function fetchAddressesFromAPI(apiUrls: string[]): Promise<string> {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 // 1. 获取客户端 IP
-  const forwarded = req.headers["x-forwarded-for"];
+ /* const forwarded = req.headers["x-forwarded-for"];
   const realIP = req.headers['x-real-ip'];
   const clientIP = typeof forwarded === 'string' 
     ? forwarded.split(/, /)[0] 
@@ -96,7 +96,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (error) {
     console.error('写入日志失败:', error);
   }
-
+*/
 //不知道要不要放在前面
 
   if (req.method !== 'GET') {
