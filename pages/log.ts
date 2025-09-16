@@ -12,7 +12,7 @@ interface LogPageProps {
   logs: LogEntry[]; // 假设我们从某个地方获取日志
 }
 
-export default function LogPage({ logs }: LogPageProps) {
+export default function LogPage({ logs }: LogPageProps): JSX.Element {
   return (
     <div style={{ padding: '2rem', fontFamily: 'monospace' }}>
       <h1>订阅生成访问日志</h1>
