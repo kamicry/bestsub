@@ -1,5 +1,6 @@
 // pages/log.ts
 import { GetServerSideProps } from 'next';
+import React from 'react';
 
 interface LogEntry {
   timestamp: string;
