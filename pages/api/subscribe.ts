@@ -76,6 +76,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     ? forwarded.split(/, /)[0] 
     : realIP || req.socket.remoteAddress || 'unknown';
 
+  console.log('realip:', realIP,clientIP);
+
   // 2. 记录日志
   const logEntry = {
     timestamp: new Date().toISOString(),
