@@ -27,7 +27,7 @@ export default function Home() {
     setSubscriptionLink(link);
     
     // 生成二维码（这里可以使用第三方库）
-    // setQrCode(qrCodeData);
+     setQrCode(qrCodeData);
   };
 
   return (
